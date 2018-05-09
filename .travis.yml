@@ -16,10 +16,23 @@ matrix:
         - docker
       script:
         - ./make/manylinux1/build_wheels.sh
+        - |
+          if [[ $TRAVIS_TAG ]]; then
+            python -m pip install twine
+            python -m twine upload dist/*.whl
+          fi
+
     - os: osx
       osx_image: xcode8.3
       script:
         - ./make/osx/build_wheels.sh
+        - |
+          if [[ $TRAVIS_TAG ]]; then
+            . ./venv_3.6/bin/activate
+            python -m pip install twine
+            python -m twine upload dist/*.whl
+            deactivate
+          fi
 
 install:
   - if [ "${TRAVIS_OS_NAME:-}" == "osx" ]; then ./make/osx/install_python.sh; fi
