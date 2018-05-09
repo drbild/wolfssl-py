@@ -1,5 +1,13 @@
 sudo: required
 
+notifications:
+  email: false
+
+env:
+  global:
+    - TWINE_USERNAME=drbild
+    # Note: TWINE_PASSWORD is set in Travis settings
+
 matrix:
   include:
     - dist: trusty
