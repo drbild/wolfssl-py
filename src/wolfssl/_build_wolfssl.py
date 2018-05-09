@@ -114,6 +114,8 @@ def make_flags(prefix):
     flags.append("--prefix={}".format(prefix))
 
     # lib only
+    flags.append("--enable-ed25519")
+
     flags.append("--disable-shared")
     flags.append("--disable-examples")
 
