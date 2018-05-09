@@ -23,10 +23,15 @@
 
 import os
 import sys
-import pip
 from setuptools import setup
 from setuptools.command.build_ext import build_ext
 
+try:
+    from pip._internal.req import parse_requirements
+    from pip._internal.download import PipSession
+except ImportError:
+    from pip.req import parse_requirements
+    from pip.download import PipSession
 
 # Adding src folder to the include path in order to import from wolfssl
 package_dir = os.path.join(os.path.dirname(__file__), "src")
@@ -44,14 +49,10 @@ with open("LICENSING.rst") as licensing_file:
     long_description = long_description.replace(".. include:: LICENSING.rst\n",
                                                 licensing_file.read())
 
-
 # requirements
 def _parse_requirements(filepath):
-    raw = pip.req.parse_requirements(
-        filepath, session=pip.download.PipSession())
-
+    raw = parse_requirements(filepath, session=PipSession())
     return [str(i.req) for i in raw]
-
 
 install_requirements = _parse_requirements("requirements/prod.txt")
 setup_requirements = _parse_requirements("requirements/setup.txt")
