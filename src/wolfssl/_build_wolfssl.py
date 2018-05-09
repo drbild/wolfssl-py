@@ -19,19 +19,20 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA
 
+import glob
 import os
 import subprocess
 from contextlib import contextmanager
 from distutils.util import get_platform
 
+FILE = os.path.abspath(__file__)
 
 def local_path(path):
     """ Return path relative to the root of this project
     """
-    current = os.path.dirname(__file__)
+    current = os.path.dirname(FILE)
     gparent = os.path.dirname(os.path.dirname(current))
     return os.path.abspath(os.path.join(gparent, path))
-
 
 WOLFSSL_GIT_ADDR = "https://github.com/wolfssl/wolfssl.git"
 WOLFSSL_SRC_PATH = local_path("lib/wolfssl/src")
@@ -67,8 +68,6 @@ def clone_wolfssl(version):
     """
     call("git clone --depth=1 --branch={} {} {}".format(
         version, WOLFSSL_GIT_ADDR, WOLFSSL_SRC_PATH))
-
-
 def checkout_version(version):
     """ Ensure that we have the right version
     """
@@ -91,6 +90,15 @@ def checkout_version(version):
 
     return False
 
+def apply_patches():
+    """ Apply patches to the source
+    """
+    patch_dir = local_path("patch")
+    patches = glob.glob("{}/*.patch".format(patch_dir))
+    with chdir(WOLFSSL_SRC_PATH):
+        for patch in patches:
+            print("Apply patch", patch)
+            call("git apply {}".format(patch))
 
 def ensure_wolfssl_src(version):
     """ Ensure that wolfssl sources are presents and up-to-date
@@ -130,6 +138,7 @@ def make(configure_flags):
     """
     with chdir(WOLFSSL_SRC_PATH):
         call("git clean -fdX")
+        apply_patches()
 
         try:
             call("./autogen.sh")
