@@ -20,9 +20,9 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA
 
-__title__ = "wolfssl"
+__title__ = "wolfssl_with_ed25519"
 __summary__ = "Python module that encapsulates wolfSSL's C SSL/TLS library."
-__uri__ = "https://github.com/wolfssl/wolfssl-py"
+__uri__ = "https://github.com/drbild/wolfssl-py"
 
 # When bumping the C library version, reset the POST count to 0
 

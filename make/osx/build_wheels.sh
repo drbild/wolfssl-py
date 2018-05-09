@@ -10,7 +10,7 @@ for PYVERSION in 2.7 3.4 3.5 3.6; do
     set +e
     pip uninstall -y wolfssl
     set -e
-    pip install wolfssl --no-index -f dist
+    pip install wolfssl_with_ed25519 --no-index -f dist
     rm -rf tests/__pycache__
     py.test tests
     deactivate
