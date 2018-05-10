@@ -123,6 +123,7 @@ def make_flags(prefix):
 
     # lib only
     flags.append("--enable-ed25519")
+    flags.append("--enable-curve25519")
 
     flags.append("--disable-shared")
     flags.append("--disable-examples")
@@ -137,7 +138,8 @@ def make(configure_flags):
     """ Create a release of wolfSSL C library
     """
     with chdir(WOLFSSL_SRC_PATH):
-        call("git clean -fdX")
+        call("git clean -fd")
+        call("git checkout -- .")
         apply_patches()
 
         try:

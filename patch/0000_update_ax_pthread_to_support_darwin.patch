@@ -1,5 +1,5 @@
 diff --git a/m4/ax_pthread.m4 b/m4/ax_pthread.m4
-index bdb34b0..5fbf9fe 100644
+index bdb34b0a..5fbf9fe0 100644
 --- a/m4/ax_pthread.m4
 +++ b/m4/ax_pthread.m4
 @@ -1,5 +1,5 @@
